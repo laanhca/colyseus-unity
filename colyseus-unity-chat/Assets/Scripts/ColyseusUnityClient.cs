@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using Colyseus;
-using Colyseus.Schema;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class ColyseusUnityClient : MonoBehaviour
@@ -63,7 +59,13 @@ public class ColyseusUnityClient : MonoBehaviour
     {
         Debug.LogError("RoomHandlerCallbacks");
         _room.State.players.OnAdd += OnAddPlayer;
+        _room.State.players.OnChange += OnChangePlayer;
         _room.State.players.OnRemove += OnRemovePlayer;
+    }
+
+    private void OnChangePlayer(string sessionId, PlayerState playerState)
+    {
+        Debug.LogError("OnChangePlayer with sessionId: "+ sessionId);
     }
 
     void Update()
@@ -73,13 +75,14 @@ public class ColyseusUnityClient : MonoBehaviour
 
     private void OnAddPlayer(string sessionId, PlayerState playerState)
     {
-        Debug.LogError("OnAddPlayer");
+        Debug.LogError("OnAddPlayer with sessionId: "+ sessionId);
         _gamePlay.AddPlayer(sessionId, playerState);
 
     }
 
-    private void OnRemovePlayer(string sessionId, PlayerState player)
+    private void OnRemovePlayer(string sessionId, PlayerState playerSate)
     {
-        Debug.LogError("OnRemovePlayer");
+        Debug.LogError("OnRemovePlayer with sessionId: "+ sessionId);
+        _gamePlay.RemovePlayer(sessionId, playerSate);
     }
 }

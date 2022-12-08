@@ -23,6 +23,7 @@ export class GameRoom extends Room<State>{
       onLeave (client: Client, consented: boolean) {
         console.log(client.sessionId, "left!");
         this.state.onRemovePlayer(client);
+        this.broadcast('log','A player has been removed: '+ client.sessionId);
       }
     
       onDispose() {

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class GamePlay : MonoBehaviour
@@ -26,5 +24,14 @@ public class GamePlay : MonoBehaviour
         player.SetMessage("Hello");
         
         _players.Add(sessionId, player);
+        Debug.LogError("[Client] Add Player Complete");
+
+    }
+    public void RemovePlayer(string sessionId, PlayerState playerSate)
+    {
+        Player leftPlayer = _players[sessionId];
+        if(leftPlayer) Destroy(leftPlayer.gameObject);
+        _players.Remove(sessionId);
+        Debug.LogError("[Client] Remove Player Complete");
     }
 }
