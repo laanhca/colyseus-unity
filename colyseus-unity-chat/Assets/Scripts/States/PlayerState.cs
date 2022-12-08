@@ -7,7 +7,7 @@
 
 using Colyseus.Schema;
 
-public partial class Player : Schema {
+public partial class PlayerState : Schema {
 	[Type(0, "string")]
 	public string name = default(string);
 

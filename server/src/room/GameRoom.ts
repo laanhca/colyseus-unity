@@ -17,6 +17,7 @@ export class GameRoom extends Room<State>{
       onJoin (client: Client, options: any) {
         console.log(client.sessionId, "joined!");
         this.state.onAddPlayer(client);
+        this.broadcast('log','A player has been added: '+ client.sessionId);
       }
     
       onLeave (client: Client, consented: boolean) {

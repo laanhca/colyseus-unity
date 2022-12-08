@@ -1,5 +1,5 @@
 import { Schema, Context, type } from "@colyseus/schema";
-export class Player extends Schema {
+export class PlayerState extends Schema {
     @type("string")
     name: string;  
     @type("number")

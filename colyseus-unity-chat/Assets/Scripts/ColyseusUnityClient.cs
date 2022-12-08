@@ -25,11 +25,60 @@ public class ColyseusUnityClient : MonoBehaviour
         //string endpoint = "ws://vps735892.ovh.net:2567";
         Debug.Log("Connecting to " + endpoint);
         _unityClient = new ColyseusClient(endpoint);
-        _room = await _unityClient.Create<State>("game_room");
+        Debug.Log("[CLient] Client created");
+        
+        _room = await _unityClient.JoinOrCreate<State>("game_room");
+        Debug.Log("[CLient] Room created with SessionId:"+  _room.SessionId);
+
+        RegisterRoomHandlers();
+        StartGame();
+    }
+
+    private void StartGame()
+    {
+        
+    }
+
+    private void RegisterRoomHandlers()
+    {
+        RoomHandlerCallbacks();
+
+        RoomHandlerMessages();
+
+
+        //handle message from server
+
+    }
+
+    private void RoomHandlerMessages()
+    {
+        Debug.LogError("OnRoomHandlesMessages");
+        _room.OnMessage<string>("log", (message) =>
+        {
+            Debug.Log("[Server] "+ message);
+        });
+    }
+
+    private void RoomHandlerCallbacks()
+    {
+        Debug.LogError("RoomHandlerCallbacks");
+        _room.State.players.OnAdd += OnAddPlayer;
+        _room.State.players.OnRemove += OnRemovePlayer;
     }
 
     void Update()
     {
         
+    }
+
+    private void OnAddPlayer(string sessionId, PlayerState player)
+    {
+        Debug.LogError("OnAddPlayer");
+
+    }
+
+    private void OnRemovePlayer(string sessionId, PlayerState player)
+    {
+        Debug.LogError("OnRemovePlayer");
     }
 }
