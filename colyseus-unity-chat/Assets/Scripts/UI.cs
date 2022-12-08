@@ -24,7 +24,8 @@ public class UI : MonoBehaviour
     public void OnSendMessageBtnClick()
     {
         string mess = playerInputArea.text;
-        playerInputArea.text = "";
+        if (mess == "") return;
         OnSendBtn.Invoke(mess);
+        playerInputArea.text = "";
     }
 }
