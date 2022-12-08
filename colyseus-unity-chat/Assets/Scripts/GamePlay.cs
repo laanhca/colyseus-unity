@@ -34,4 +34,10 @@ public class GamePlay : MonoBehaviour
         _players.Remove(sessionId);
         Debug.LogError("[Client] Remove Player Complete");
     }
+
+    public void OnPlayerSendMessage(string sessionId, string mess)
+    {
+        Player player = _players[sessionId];
+        player.SetMessage(mess);
+    }
 }

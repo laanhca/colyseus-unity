@@ -11,13 +11,16 @@ public partial class PlayerState : Schema {
 	[Type(0, "string")]
 	public string name = default(string);
 
-	[Type(1, "number")]
-	public float x = default(float);
+	[Type(1, "string")]
+	public string message = default(string);
 
 	[Type(2, "number")]
+	public float x = default(float);
+
+	[Type(3, "number")]
 	public float y = default(float);
 
-	[Type(3, "boolean")]
+	[Type(4, "boolean")]
 	public bool dir = default(bool);
 }
 

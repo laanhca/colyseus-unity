@@ -2,6 +2,8 @@ import { Schema, Context, type } from "@colyseus/schema";
 export class PlayerState extends Schema {
     @type("string")
     name: string;  
+    @type("string")
+    message: string;  
     @type("number")
     x: number;    
     @type("number")

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Colyseus;
+using Colyseus.Schema;
 using UnityEngine;
 
 public class ColyseusUnityClient : MonoBehaviour
@@ -6,13 +8,21 @@ public class ColyseusUnityClient : MonoBehaviour
     private ColyseusClient _unityClient;
     private ColyseusRoom<State> _room;
     private GamePlay _gamePlay;
+    private UI _gameUI;
     
     
     void Start()
     {
        
         _gamePlay = GameObject.Find("GamePlay").GetComponent<GamePlay>();
+        _gameUI = GameObject.Find("UI").GetComponent<UI>();
+        _gameUI.OnSendBtn += OnPlayerSendMess;
         ConnectToGameServer();
+    }
+
+    private void OnPlayerSendMess(string mess)
+    {
+        _room.Send("chat", mess);
     }
 
     private async void ConnectToGameServer()
@@ -59,14 +69,11 @@ public class ColyseusUnityClient : MonoBehaviour
     {
         Debug.LogError("RoomHandlerCallbacks");
         _room.State.players.OnAdd += OnAddPlayer;
-        _room.State.players.OnChange += OnChangePlayer;
+        // _room.State.players.OnChange += OnChangePlayer;
         _room.State.players.OnRemove += OnRemovePlayer;
     }
 
-    private void OnChangePlayer(string sessionId, PlayerState playerState)
-    {
-        Debug.LogError("OnChangePlayer with sessionId: "+ sessionId);
-    }
+
 
     void Update()
     {
@@ -77,7 +84,21 @@ public class ColyseusUnityClient : MonoBehaviour
     {
         Debug.LogError("OnAddPlayer with sessionId: "+ sessionId);
         _gamePlay.AddPlayer(sessionId, playerState);
+        
+        //add change callback
+        playerState.OnChange += (List<DataChange> changes)=>OnChangePlayer(changes, sessionId);
 
+    }
+
+    private void OnChangePlayer(List<DataChange> changes, string sessionId)
+    {
+        foreach (var change in changes)
+        {
+            if (change.Field == "message")
+            {
+                _gamePlay.OnPlayerSendMessage(sessionId, (string)change.Value);
+            }
+        }
     }
 
     private void OnRemovePlayer(string sessionId, PlayerState playerSate)

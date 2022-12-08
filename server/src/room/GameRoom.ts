@@ -1,4 +1,5 @@
 import { Client, Room } from "colyseus";
+import { PlayerState } from "../entity/PlayerState";
 import { State } from "../entity/State";
 
 export class GameRoom extends Room<State>{
@@ -7,9 +8,7 @@ export class GameRoom extends Room<State>{
         this.setState(new State());
     
         this.onMessage("chat", (client, message) => {
-          //
-          // handle "chat" message
-          //
+          this.onPlayerSendMessage(client, message);
         });
     
       }
@@ -28,6 +27,12 @@ export class GameRoom extends Room<State>{
     
       onDispose() {
         console.log("room", this.roomId, "disposing...");
+      }
+
+      // handlers
+      onPlayerSendMessage(client: Client, message: string){
+        const player: PlayerState =  this.state.players.get(client.sessionId);
+        player.message = message;
       }
 
 }
