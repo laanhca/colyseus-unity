@@ -8,7 +8,7 @@ export class State extends Schema {
 players = new MapSchema<PlayerState>();
 
 onAddPlayer(client: Client){
-    let player = new PlayerState(Math.random()* (5 - 1) + 1,0);
+    let player = new PlayerState(Math.random()* (5 + 5) -5,0);
     this.players.set(client.sessionId, player);
 }
 

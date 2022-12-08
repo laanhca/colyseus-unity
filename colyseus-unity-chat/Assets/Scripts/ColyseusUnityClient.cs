@@ -71,9 +71,10 @@ public class ColyseusUnityClient : MonoBehaviour
         
     }
 
-    private void OnAddPlayer(string sessionId, PlayerState player)
+    private void OnAddPlayer(string sessionId, PlayerState playerState)
     {
         Debug.LogError("OnAddPlayer");
+        _gamePlay.AddPlayer(sessionId, playerState);
 
     }
 
